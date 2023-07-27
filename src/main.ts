@@ -4,7 +4,7 @@ import { AppModule } from './app.module'
 import { generateDocument } from './doc'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
-import session from 'express-session'
+import * as session from 'express-session'
 import { RemoveSensitiveUserInfoInterceptor } from './shared/interceptors/remove-sensitive-info.interceptor'
 
 async function bootstrap () {
