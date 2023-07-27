@@ -154,7 +154,7 @@ export class ContentService {
    */
   async takeScreenshot (id) {
     const url = `http://clash-builder.echoyore.tech/?id=${id}`
-    const host = 'http://clash-swagger.echoyore.tech/'
+    const host = 'http://clash-server.echoyore.tech/'
     const prefix = `static/upload/`
     const imgPath = join(__dirname, '../../../..', prefix)
     await ensureDir(imgPath)
