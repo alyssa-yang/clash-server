@@ -20,4 +20,3 @@ jobs:
             yarn start
             yarn build
             pm2 restart clash_server
-c
