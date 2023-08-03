@@ -3,13 +3,13 @@ import {
   CreateDateColumn,
   ObjectIdColumn,
   UpdateDateColumn,
-  VersionColumn
+  VersionColumn,
+  ObjectID
 } from 'typeorm'
-import { ObjectId } from 'mongoose'
 
 export abstract class Common {
   @ObjectIdColumn()
-  _id: ObjectId
+  _id: ObjectID
 
   @CreateDateColumn()
   createdAt: Date

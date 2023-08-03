@@ -2,15 +2,11 @@ import {
   PrimaryGeneratedColumn,
   Entity,
   Column,
-  Unique,
-  UpdateDateColumn,
-  ObjectIdColumn,
-  CreateDateColumn,
-  ManyToMany,
-  JoinTable
+  ObjectID,
+  OneToOne
 } from 'typeorm'
-import { ObjectId } from 'mongoose'
 import { Common } from '@/shared/entities/common.entity'
+import { User } from '@/user/entities/user.mongo.entity'
 @Entity()
 export class Content extends Common {
   @PrimaryGeneratedColumn()
@@ -25,8 +21,8 @@ export class Content extends Common {
   @Column('text')
   type: string
 
-  @Column()
-  userId?: ObjectId
+  @OneToOne(() => User)
+  userId?: ObjectID
 
   @Column('boolean')
   publish: boolean

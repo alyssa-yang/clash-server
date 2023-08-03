@@ -1,16 +1,12 @@
-import { PrimaryGeneratedColumn, Entity, Column, Unique, UpdateDateColumn, ObjectIdColumn, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
-import { ObjectId } from 'mongoose';
-import { User } from './user.mongo.entity';
-import { Common } from 'src/shared/entities/common.entity';
+/* eslint-disable prettier/prettier */
+import { Entity, Column } from 'typeorm'
+import { Common } from 'src/shared/entities/common.entity'
+
 @Entity()
 export class Role extends Common {
+  @Column('text')
+  name: string
 
-    // 角色名
-    @Column('text')
-    name: string;
-
-    // 权限
-    @Column('')
-    permissions: object;
-
+  @Column('')
+  permissions: object
 }

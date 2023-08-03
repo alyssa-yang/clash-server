@@ -1,7 +1,7 @@
-import { ConfigModuleOptions } from "@nestjs/config";
-import configration from "./configration";
+import { ConfigModuleOptions } from '@nestjs/config'
+import configration from './configration'
 
 export const configModuleOptions: ConfigModuleOptions = {
-    envFilePath: '.env',
-    load: [configration]
+  envFilePath: '.env',
+  load: [configration]
 }

@@ -1,17 +1,19 @@
-import { Injectable, Inject, Query } from '@nestjs/common'
-import { In, Like, Raw, MongoRepository } from 'typeorm'
+import { Injectable, Inject } from '@nestjs/common'
+import { MongoRepository } from 'typeorm'
 import { Content } from '../entities/content.mongo.entity'
 import { UpdateContentDto } from '../dtos/content.dto'
 import * as puppeteer from 'puppeteer'
 import { join } from 'path'
-import { ensureDir, outputFile } from 'fs-extra'
+import { ensureDir } from 'fs-extra'
 import axios from 'axios'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class ContentService {
   constructor (
     @Inject('CONTENT_REPOSITORY')
-    private contentRepository: MongoRepository<Content>
+    private contentRepository: MongoRepository<Content>,
+    private configService: ConfigService
   ) {}
 
   async create (dto: UpdateContentDto) {
@@ -127,19 +129,18 @@ export class ContentService {
   }
 
   /**
-   * 刷新ssg服务
+   * 刷新ssr服务
    * @param id
    */
   async sync (id: number) {
-    const secret = `iamvalidatetoken`
+    const secret = this.configService.get('cms.validateToken')
+    const host = this.configService.get('cms.host')
     const url = `api/revalidate?secret=${secret}&id=${id}`
-    const host = `http://clash-builder.echoyore.tech`
-    console.log('sync nest validate url:', host + '/' + url)
+    console.log('sync nest validate url:', host + url)
     try {
       console.log('url', url)
-      await axios.get(host + '/' + url)
+      await axios.get(host + url)
     } catch (error) {
-      // console.log(error)
       console.log('同步失败')
       throw error
     }
@@ -153,8 +154,10 @@ export class ContentService {
    * @param id
    */
   async takeScreenshot (id) {
-    const url = `http://clash-builder.echoyore.tech/?id=${id}`
-    const host = 'http://clash-server.echoyore.tech/'
+    // const url = `http://clash-builder.echoyore.tech/?id=${id}`
+    // const host = 'http://clash-server.echoyore.tech/'
+    const url = `http://localhost:3000/?id=${id}`
+    const host = 'http://localhost:4000/'
     const prefix = `static/upload/`
     const imgPath = join(__dirname, '../../../..', prefix)
     await ensureDir(imgPath)
