@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common'
 import { MongoRepository } from 'typeorm'
 import { Content } from '../entities/content.mongo.entity'
 import { UpdateContentDto } from '../dtos/content.dto'
-import * as puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer'
 import { join } from 'path'
 import { ensureDir } from 'fs-extra'
 
