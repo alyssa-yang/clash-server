@@ -10,7 +10,7 @@ import { map } from 'rxjs'
 export class RemoveSensitiveUserInfoInterceptor implements NestInterceptor {
   intercept (context: ExecutionContext, next: CallHandler) {
     const request = context.switchToHttp().getRequest()
-    console.log('request', request.body)
+    console.log('request', request.body, request.originalUrl, request.query)
     return next.handle().pipe(
       map(res => {
         if (res) {
