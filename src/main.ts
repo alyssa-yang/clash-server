@@ -4,7 +4,7 @@ import { AppModule } from './app.module'
 import { generateDocument } from './doc'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
-import * as session from 'express-session'
+import cookieSession from 'cookie-session'
 import { RemoveSensitiveUserInfoInterceptor } from './shared/interceptors/remove-sensitive-info.interceptor'
 
 async function bootstrap () {
@@ -13,7 +13,7 @@ async function bootstrap () {
   })
 
   app.use(
-    session({
+    cookieSession({
       secret: 'my-secret',
       resave: false,
       saveUninitialized: false,
