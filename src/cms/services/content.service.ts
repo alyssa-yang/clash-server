@@ -137,13 +137,13 @@ export class ContentService {
     const host = this.configService.get('cms.host')
     const url = `api/revalidate?secret=${secret}&id=${id}`
     console.log('sync nest validate url:', host + url)
-    try {
-      console.log('url', url)
-      await axios.get(host + url)
-    } catch (error) {
-      console.log('同步失败')
-      throw error
-    }
+    // try {
+    //   console.log('url', url)
+    //   await axios.get(host + url)
+    // } catch (error) {
+    //   console.log('同步失败')
+    //   throw error
+    // }
 
     return
   }
