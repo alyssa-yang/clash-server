@@ -49,6 +49,7 @@ async function bootstrap () {
     !!process.env.UPLOAD_DIR && process.env.UPLOAD_DIR !== ''
       ? process.env.UPLOAD_DIR
       : join(__dirname, '../..', 'static/upload')
+
   app.useStaticAssets(uploadDir, {
     prefix: '/static/upload'
   })
