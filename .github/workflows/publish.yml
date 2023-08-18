@@ -17,6 +17,6 @@ jobs:
           script: |
             cd /root/source/clash-server/
             git pull
-            yarn start
+            yarn
             yarn build
             pm2 restart clash_server
