@@ -5,15 +5,12 @@ import { UpdateContentDto } from '../dtos/content.dto'
 import * as puppeteer from 'puppeteer'
 import { join } from 'path'
 import { ensureDir } from 'fs-extra'
-import axios from 'axios'
-import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class ContentService {
   constructor (
     @Inject('CONTENT_REPOSITORY')
-    private contentRepository: MongoRepository<Content>,
-    private configService: ConfigService
+    private contentRepository: MongoRepository<Content>
   ) {}
 
   async create (dto: UpdateContentDto) {
@@ -35,9 +32,6 @@ export class ContentService {
         { $set: dto }
       )
     }
-
-    // 同步SSR
-    await this.sync(dto.id)
 
     // if (dto.publish) {
     const thumbnail = await this.takeScreenshot(dto.id)
@@ -122,30 +116,7 @@ export class ContentService {
       { $set: { isDelete: true, publish: false } }
     )
 
-    // 同步SSR
-    await this.sync(id)
-
     return ret
-  }
-
-  /**
-   * 刷新ssr服务
-   * @param id
-   */
-  async sync (id: number) {
-    const secret = this.configService.get('cms.validateToken')
-    const host = this.configService.get('cms.host')
-    const url = `api/revalidate?secret=${secret}&id=${id}`
-    console.log('sync nest validate url:', host + url)
-    // try {
-    //   console.log('url', url)
-    //   await axios.get(host + url)
-    // } catch (error) {
-    //   console.log('同步失败')
-    //   throw error
-    // }
-
-    return
   }
 
   /**
