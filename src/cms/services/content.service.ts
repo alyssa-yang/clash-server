@@ -150,22 +150,7 @@ export class ContentService {
   }
 
   async runPuppeteer (url, { thumbnailFilename, thumbnailFullFilename }) {
-    const browser = await puppeteer.launch({
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-web-security', // disabling CORS
-        '--disable-site-isolation-trials',
-        '--disable-notifications', // to disable native notification window on Mac OS
-        '--no-zygote' // Seems to help avoid zombies https://github.com/puppeteer/puppeteer/issues/1825
-      ],
-      devtools: false,
-      // headless: "new",
-      headless: true,
-      ignoreHTTPSErrors: true,
-      slowMo: 0
-    })
+    const browser = await puppeteer.launch()
     const page = await browser.newPage()
 
     // 设置打开分辨率
