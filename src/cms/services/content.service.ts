@@ -37,7 +37,7 @@ export class ContentService {
     const thumbnail = await this.takeScreenshot(dto.id)
     dto.thumbnail = thumbnail
     // }
-
+    console.log(1111, thumbnail)
     return dto
   }
 
@@ -153,12 +153,12 @@ export class ContentService {
     const browser = await puppeteer.launch({
       args: [
         '--no-sandbox',
-        '--lang=zh-CN'
-        // '--font-render-hinting=medium',
-        // '--font-antialiasing=standard',
-        // `--font-family="WenQuanYi Zen Hei"`
+        '--lang=zh-CN',
+        '--font-render-hinting=medium',
+        '--font-antialiasing=standard',
+        `--font-family="WenQuanYi Zen Hei"`
       ],
-      headless: 'new'
+      headless: false
     })
     const page = await browser.newPage()
 

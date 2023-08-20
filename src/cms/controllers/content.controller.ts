@@ -60,6 +60,7 @@ export class ContentController {
     const userId = req.user.id
     dto.userId = userId
     const content = await this.ContentService.create(dto)
+    console.log(222, content)
     return content
   }
 
