@@ -151,11 +151,16 @@ export class ContentService {
 
   async runPuppeteer (url, { thumbnailFilename, thumbnailFullFilename }) {
     const browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox']
+      args: [
+        '--no-sandbox',
+        '--lang=zh-CN',
+        '--font-render-hinting=medium',
+        '--font-antialiasing=standard',
+        `--font-family="WenQuanYi Zen Hei"`
+      ],
+      headless: true
     })
-    const context = await browser.createIncognitoBrowserContext()
-    const page = await context.newPage()
+    const page = await browser.newPage()
 
     // 设置打开分辨率
     await page.setViewport({ width: 750, height: 800 })
