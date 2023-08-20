@@ -158,7 +158,7 @@ export class ContentService {
         '--font-antialiasing=standard',
         `--font-family="WenQuanYi Zen Hei"`
       ],
-      headless: false
+      headless: 'new'
     })
     const page = await browser.newPage()
 
