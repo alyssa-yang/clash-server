@@ -5,6 +5,7 @@ import { UpdateContentDto } from '../dtos/content.dto'
 import puppeteer from 'puppeteer'
 import { join } from 'path'
 import { ensureDir } from 'fs-extra'
+import axios from 'axios'
 
 @Injectable()
 export class ContentService {
@@ -32,6 +33,9 @@ export class ContentService {
         { $set: dto }
       )
     }
+
+    // 同步SSR
+    await this.sync(dto.id)
 
     // if (dto.publish) {
     const thumbnail = await this.takeScreenshot(dto.id)
@@ -116,6 +120,8 @@ export class ContentService {
       { $set: { isDelete: true, publish: false } }
     )
 
+    // 同步SSR
+    await this.sync(id)
     return ret
   }
 
@@ -125,10 +131,10 @@ export class ContentService {
    * @param id
    */
   async takeScreenshot (id) {
-    const url = `http://clash-builder.echoyore.tech/?id=${id}`
-    const host = 'http://clash-server.echoyore.tech/'
-    // const url = `http://localhost:5002/?id=${id}`
-    // const host = 'http://localhost:4000/'
+    // const url = `http://clash-builder.echoyore.tech/?id=${id}`
+    // const host = 'http://clash-server.echoyore.tech/'
+    const url = `http://localhost:5002/?id=${id}`
+    const host = 'http://localhost:4000/'
     const prefix = `static/upload/`
     const imgPath = join(__dirname, '../../../..', prefix)
     await ensureDir(imgPath)
@@ -176,5 +182,26 @@ export class ContentService {
     })
     console.log('缩略图生成完成。。。。')
     await browser.close()
+  }
+
+  /**
+   * 刷新ssg服务
+   * @param id
+   */
+  async sync (id: number) {
+    const secret = `iamvalidatetoken`
+    const url = `api/revalidate?secret=${secret}&id=${id}`
+    const host = `http://clash-builder-ssg.echo.tech`
+    console.log('sync nest validate url:', host + '/' + url)
+    try {
+      console.log('url', url)
+      await axios.get(host + '/' + url)
+    } catch (error) {
+      // console.log(error)
+      console.log('同步失败')
+      throw error
+    }
+
+    return
   }
 }
