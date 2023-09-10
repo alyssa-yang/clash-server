@@ -180,7 +180,8 @@ export class ContentService {
 
     await page.screenshot({
       fullPage: true, // 是否截全屏
-      path: thumbnailFullFilename
+      path: thumbnailFullFilename,
+      omitBackground: true
     })
     console.log('缩略图生成完成。。。。')
     await browser.close()
