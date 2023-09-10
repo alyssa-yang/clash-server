@@ -191,7 +191,7 @@ export class ContentService {
   async sync (id: number) {
     const secret = `iamvalidatetoken`
     const url = `api/revalidate?secret=${secret}&id=${id}`
-    const host = `http://clash-builder-ssg.echo.tech`
+    const host = `http://clash-builder-ssg.echoyore.tech`
     console.log('sync nest validate url:', host + '/' + url)
     try {
       console.log('url', url)
