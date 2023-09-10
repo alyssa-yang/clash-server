@@ -6,12 +6,14 @@ import puppeteer from 'puppeteer'
 import { join } from 'path'
 import { ensureDir } from 'fs-extra'
 import axios from 'axios'
-
+import { ConfigService } from '@nestjs/config'
 @Injectable()
 export class ContentService {
   constructor (
     @Inject('CONTENT_REPOSITORY')
-    private contentRepository: MongoRepository<Content>
+    private contentRepository: MongoRepository<Content>,
+    // 注入环境变量
+    private readonly configService: ConfigService
   ) {}
 
   async create (dto: UpdateContentDto) {
@@ -189,7 +191,7 @@ export class ContentService {
    * @param id
    */
   async sync (id: number) {
-    const secret = `iamvalidatetoken`
+    const secret = this.configService.get('cms.validateToken')
     const url = `api/revalidate?secret=${secret}&id=${id}`
     const host = `http://clash-builder-ssg.echoyore.tech`
     console.log('sync nest validate url:', host + '/' + url)
